@@ -291,14 +291,14 @@ PHP_FUNCTION(dbase_add_record)
 	dbf = dbh->db_fields;
 	for (i = 0, cur_f = dbf; cur_f < &dbf[num_fields]; i++, cur_f++) {
 		
-		if (zend_hash_index_find(Z_ARRVAL_P(fields), i, (void *)&field) == FAILURE) {
+		if ((field = zend_hash_index_find(Z_ARRVAL_P(fields), i)) == NULL) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "unexpected error");
 			efree(cp);
 			RETURN_FALSE;
 		}
 	
-		zend_string *str = zval_get_string( *field);
-		snprintf(t_cp, cur_f->db_flen+1, cur_f->db_format, Z_STRVAL(str));  //TODO or is it *str?
+		zend_string str = zval_get_string( field);								//TODO or is it *str | *field?
+		snprintf(t_cp, cur_f->db_flen+1, cur_f->db_format, Z_STRVAL(str));  	//same
 		zend_string_release(str);
 		t_cp += cur_f->db_flen;
 	}
@@ -360,7 +360,7 @@ PHP_FUNCTION(dbase_replace_record)
 
 	dbf = dbh->db_fields;
 	for (i = 0, cur_f = dbf; cur_f < &dbf[num_fields]; i++, cur_f++) {
-		if (zend_hash_index_find(Z_ARRVAL_P(fields), i, (void *)&field) == FAILURE) {
+		if ((field = zend_hash_index_find(Z_ARRVAL_P(fields), i)) == NULL) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "unexpected error");
 			efree(cp);
 			RETURN_FALSE;
@@ -649,14 +649,15 @@ PHP_FUNCTION(dbase_create)
 
 	for (i = 0, cur_f = dbf; i < num_fields; i++, cur_f++) {
 		/* look up the first field */
-		if (zend_hash_index_find(Z_ARRVAL_P(fields), i, (void **)&field) == FAILURE) {
+		if ((field = zend_hash_index_find(Z_ARRVAL_P(fields), i)) == NULL) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "unable to find field %d", i);
 			free_dbf_head(dbh);
 			RETURN_FALSE;
 		}
 
 		/* field name */
-		if (Z_TYPE_P(field) != IS_ARRAY || zend_hash_index_find(Z_ARRVAL_P(field), 0, (void *)&value) == FAILURE) {
+		
+		if (Z_TYPE_P(field) != IS_ARRAY || (value = zend_hash_index_find(Z_ARRVAL_P(field), 0)) == NULL) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "expected field name as first element of list in field %d", i);
 			free_dbf_head(dbh);
 			RETURN_FALSE;
@@ -670,7 +671,7 @@ PHP_FUNCTION(dbase_create)
 		copy_crimp(cur_f->db_fname, Z_STRVAL_P(value), Z_STRLEN_P(value));
 
 		/* field type */
-		if (zend_hash_index_find(Z_ARRVAL_P (field), 1, (void *)&value) == FAILURE) {
+		if ((value = zend_hash_index_find(Z_ARRVAL_P(field), 1)) == NULL) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "expected field type as second element of list in field %d", i);
 			RETURN_FALSE;
 		}
@@ -698,7 +699,7 @@ PHP_FUNCTION(dbase_create)
 		case 'N':
 		case 'C':
 			/* field length */
-			if (zend_hash_index_find(Z_ARRVAL_P (field), 2, (void *)&value) == FAILURE) {
+			if ((value = zend_hash_index_find(Z_ARRVAL_P(field), 2)) == NULL) {
 				php_error_docref(NULL TSRMLS_CC, E_WARNING, "expected field length as third element of list in field %d", i);
 				free_dbf_head(dbh);
 				RETURN_FALSE;
@@ -707,7 +708,7 @@ PHP_FUNCTION(dbase_create)
 			cur_f->db_flen = Z_LVAL_P(value);
 
 			if (cur_f->db_type == 'N') {
-				if (zend_hash_index_find(Z_ARRVAL_P (field), 3, (void *)&value) == FAILURE) {
+				if ((value = zend_hash_index_find(Z_ARRVAL_P(field), 3)) == NULL) {
 					php_error_docref(NULL TSRMLS_CC, E_WARNING, "expected field precision as fourth element of list in field %d", i);
 					free_dbf_head(dbh);
 					RETURN_FALSE;
