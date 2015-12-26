@@ -168,7 +168,7 @@ PHP_FUNCTION(dbase_close)
 		WRONG_PARAM_COUNT;
 	}
 	convert_to_long_ex(dbh_id);
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -191,7 +191,7 @@ PHP_FUNCTION(dbase_numrecords)
 		WRONG_PARAM_COUNT;
 	}
 	convert_to_long_ex(dbh_id);
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -213,7 +213,7 @@ PHP_FUNCTION(dbase_numfields)
 		WRONG_PARAM_COUNT;
 	}
 	convert_to_long_ex(dbh_id);
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -234,7 +234,7 @@ PHP_FUNCTION(dbase_pack)
 		WRONG_PARAM_COUNT;
 	}
 	convert_to_long_ex(dbh_id);
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -268,7 +268,7 @@ PHP_FUNCTION(dbase_add_record)
 		RETURN_FALSE;
 	}
 
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -339,7 +339,7 @@ PHP_FUNCTION(dbase_replace_record)
 		RETURN_FALSE;
 	}
 
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -394,7 +394,7 @@ PHP_FUNCTION(dbase_delete_record)
 	convert_to_long_ex(dbh_id);
 	convert_to_long_ex(record);
 
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -433,7 +433,7 @@ static void php_dbase_get_record(INTERNAL_FUNCTION_PARAMETERS, int assoc)
 	convert_to_long_ex(dbh_id);
 	convert_to_long_ex(record);
 
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
@@ -843,7 +843,7 @@ PHP_FUNCTION(dbase_get_header_info)
 	}
 	convert_to_long_ex(dbh_id);
 
-	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->dbh_type  != DBase_GLOBAL(le_dbhead)) {
+	if (!Z_RES_P(dbh_id)->ptr || Z_RES_P(dbh_id)->type  != DBase_GLOBAL(le_dbhead)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unable to find database for identifier %ld", Z_LVAL_P(dbh_id));
 		RETURN_FALSE;
 	}
