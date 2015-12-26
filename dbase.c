@@ -60,7 +60,7 @@ static int le_dbhead;
 #include <errno.h>
 
 
-static void _close_dbase(zend_rsrc_list_entry *rsrc TSRMLS_DC)
+static void _close_dbase(zend_resource *rsrc TSRMLS_DC)
 {
 	dbhead_t *dbhead = (dbhead_t *)rsrc->ptr;
 
@@ -290,16 +290,18 @@ PHP_FUNCTION(dbase_add_record)
 
 	dbf = dbh->db_fields;
 	for (i = 0, cur_f = dbf; cur_f < &dbf[num_fields]; i++, cur_f++) {
-		
+		zval tmp;
 		if ((field = zend_hash_index_find(Z_ARRVAL_P(fields), i)) == NULL) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "unexpected error");
 			efree(cp);
 			RETURN_FALSE;
 		}
-	
-		zend_string str = zval_get_string( field);								//TODO or is it *str | *field?
-		snprintf(t_cp, cur_f->db_flen+1, cur_f->db_format, Z_STRVAL(str));  	//same
-		zend_string_release(str);
+
+		tmp = *field;
+		zval_copy_ctor(&tmp);
+		convert_to_string(&tmp);
+		snprintf(t_cp, cur_f->db_flen+1, cur_f->db_format, Z_STRVAL(tmp));
+		zval_dtor(&tmp); 
 		t_cp += cur_f->db_flen;
 	}
 
