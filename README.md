@@ -1,4 +1,7 @@
 # dbase-pecl-php7
+
+__Please use the official version at https://pecl.php.net/package/dbase , this github page was only made as a stopgap solution while there was no official pecl dbase version for php7. The pecl version is newer and has more bugfixes. This github repo should be considered deprecated__
+
  php7 compatibility.
 Sources: 
  https://wiki.php.net/phpng-upgrading
